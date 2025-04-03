@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Clonage du dépôt') {
             steps {
-                git 'https://github.com/DavidSark/jenkins.git'
+                git 'https://github.com/DavidSark/jenkins.git', branch: 'main'
             }
         }
         stage('Tests unitaires') {
