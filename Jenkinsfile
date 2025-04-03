@@ -1,30 +1,25 @@
 pipeline {
-     agent any  // Exécute sur n'importe quel agent disponible
- 
-     stages {
-         stage('Checkout') {
-             steps {
-                 // Spécifier explicitement la branche 'main'
-                 git branch: 'main', url: 'https://github.com/Melina-Blm/jenkins-docker-git'
-             }
-         }
- 
-         stage('Build') {
-             steps {
-                 echo 'Aucune compilation nécessaire pour HTML/CSS/JS'
-             }
-         }
- 
-         stage('Test') {
-             steps {
-                 echo 'Ici, on peut ajouter des tests automatisés si nécessaire'
-             }
-         }
- 
-         stage('Deploy') {
-             steps {
-                 echo 'Déploiement terminé !'
-             }
-         }
-     }
- }
+    agent any
+    stages {
+        stage('Clonage du dépôt') {
+            steps {
+                git 'https://github.com/user/repository.git'
+            }
+        }
+        stage('Tests unitaires') {
+            steps {
+                sh 'python -m unittest discover tests'
+            }
+        }
+        stage('Build Docker Image') {
+            steps {
+                sh 'docker build -t myapp:latest .'
+            }
+        }
+        stage('Déploiement') {
+            steps {
+                sh 'docker run -d -p 8000:8000 myapp:latest'
+            }
+        }
+    }
+}
